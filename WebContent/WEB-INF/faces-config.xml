@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <lifecycle>
+        <phase-listener>at.htlstp.fotoherfert4school_admin.others.SessionPhaseListener</phase-listener>
+    </lifecycle>
+    
+    <navigation-rule>
+        <from-view-id>/adminLogin.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>adminmenu</from-outcome>
+            <to-view-id>/admin/adminmenu.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin/adminmenu.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>adminLogin</from-outcome>
+            <to-view-id>/adminLogin.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin/adminmenu.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>uploadFotos</from-outcome>
+            <to-view-id>/admin/uploadFotos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin/uploadFotos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>uploadZurueck</from-outcome>
+            <to-view-id>/admin/adminmenu.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+</faces-config>

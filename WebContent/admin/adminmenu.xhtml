@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+
+        <ui:composition template="./../adminTemplate.xhtml">
+            
+            <ui:define name="content">
+                <div class="layout-center title">
+                    <p:outputLabel id="title"
+                                   styleClass="layout-center"
+                                   style="font-size:36px;margin-bottom: 20px;"
+                                   value="Adminverwaltung" />
+                </div>
+
+                <div class="layout-center">
+                    <div style="padding-bottom: 15px;">
+                        <p:tabView id="tabView" 
+                                   dynamic="true"
+                                   style="width: 1200px;">
+                            <p:tab id="tab1" title="Schulverwaltung">
+                                <ui:include src="schulverwaltung.xhtml" />
+                            </p:tab>
+                            <p:tab id="tab2" title="Zahlungen">
+                                <ui:include src="offeneRechnungen.xhtml" />
+                            </p:tab>
+                            <p:tab id="tab3" title="Einstellungen">
+                                <ui:include src="einstellungen.xhtml" />
+                            </p:tab>
+                            <p:tab id="tab4" title="Profil">
+                                <ui:include src="profil.xhtml" />
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

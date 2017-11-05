@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div>
+        <h:form id="preisverwaltung">
+            <h3>Preisprofile</h3>
+            <hr/>
+            <p:dataTable id="preisprofile"
+                         value="#{adminCon.preisprofile}"
+                         var="preisprofil"
+                         editable="true"
+                         emptyMessage="Keine Preisprofile vorhanden!">
+
+                <p:ajax event="rowEdit" 
+                        listener="#{adminCon.onRowEditArtikeltyp}" 
+                        update=":adminGrowl" />       
+                <p:ajax event="rowEditCancel" 
+                        listener="#{adminCon.onRowCancelArtikeltyp}"
+                        update=":adminGrowl" />
+                
+                <p:column headerText="Bezeichnung">
+                    <p:outputLabel value="#{preisprofil.bezeichnung}" />
+                </p:column>
+
+                <p:column headerText="Preis">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:outputLabel value="#{preisprofil.preis}">
+                                <f:convertNumber type="currency"
+                                                 currencyCode="EUR"
+                                                 locale="de_AT"
+                                                 currencySymbol="€" />
+                            </p:outputLabel>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{preisprofil.preis}"
+                                         placeholder="Preis"
+                                         styleClass="bill-input-box form-control"
+                                         required="true"
+                                         requiredMessage="Bitte geben Sie einen Preis ein!"
+                                         validatorMessage="Der Preis darf nicht negativ sein!">
+                                <f:validateDoubleRange minimum="0" />
+                                <f:convertNumber type="number"
+                                                 minFractionDigits="2"
+                                                 maxFractionDigits="2"
+                                                 locale="de_AT" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </div>
+</ui:composition>

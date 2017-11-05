@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div>
+        <h:form id="profilEmailForm">
+            <h3>Email ändern</h3>
+            <hr/>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Aktuelle Email: " />
+                <p:outputLabel value="#{adminCon.benutzer.email}" 
+                               style="margin-left: 45px"/>
+            </h:panelGrid>
+            <br/>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="Neue Email" />
+                <p:inputText id="email"
+                             value="#{adminCon.neuerBenutzer.email}"
+                             placeholder="Neue Email" 
+                             styleClass="bill-input-box form-control"
+                             required="true"
+                             requiredMessage="Bitten geben Sie eine Mail-Adresse ein!"
+                             validatorMessage="Bitte geben Sie eine gültige Email-Adresse ein!"
+                             style="margin-bottom: 5px;">
+                    <f:validateRegex for="email"
+                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <p:message for="email"
+                           style="font-family: calibri; font-size: 12px;"
+                           showDetail="true" />
+                <p:outputLabel value="Email wiederholen"  />
+                <p:inputText id="email_wh"
+                             value="#{adminCon.email_wh}"
+                             placeholder="Email wiederholen" 
+                             styleClass="bill-input-box form-control"
+                             required="true"
+                             requiredMessage="Bitten wiederholen Sie die Mail-Adresse!"
+                             validatorMessage="Bitte geben Sie eine gültige Email-Adresse ein!"
+                             style="margin-bottom: 5px;">
+                    <f:validateRegex for="email"
+                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <p:message for="email_wh"
+                           style="font-family: calibri; font-size: 12px;"
+                           showDetail="true" />
+                <p:outputLabel value="Passwort" />
+                <p:password id="passwort"
+                            value="#{adminCon.neuerBenutzer.passwort}"
+                            placeholder="Passwort" 
+                            styleClass="bill-input-box form-control"
+                            rendered="true"
+                            requiredMessage="Bitte geben Sie Ihr Passwort ein!" 
+                            style="margin-bottom: 5px;"/>
+                <p:message for="passwort"
+                           style="font-family: calibri; font-size: 12px;"
+                           showDetail="true" />
+            </h:panelGrid>
+            <br/>
+            <p:commandButton value="Email ändern"
+                             actionListener="#{adminCon.aendereEmail}"
+                             ajax="false"
+                             update="@form" />
+        </h:form>
+
+        <br/><br/>
+
+        <h:form id="profilPasswortForm">
+            <h3>Passwort ändern</h3>
+            <hr/>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="Aktuelles Passwort" />
+                <p:password id="passwort_alt"
+                            value="#{adminCon.passwort_alt}"
+                            placeholder="Aktuelles Passwort" 
+                            styleClass="bill-input-box form-control"
+                            rendered="true"
+                            requiredMessage="Bitte geben Sie Ihr aktuelles Passwort ein!" 
+                            style="margin-bottom: 5px;"/>
+                <p:message for="passwort_alt"
+                           style="font-family: calibri; font-size: 12px;"
+                           showDetail="true" />
+                <p:outputLabel value="Neues Passwort" />
+                <p:password id="passwort_neu"
+                            value="#{adminCon.neuerBenutzer.passwort}"
+                            placeholder="Neues Passwort" 
+                            styleClass="bill-input-box form-control"
+                            rendered="true"
+                            requiredMessage="Bitte geben Sie ein Passwort ein!"
+                            feedback="true"
+                            maxlength="30"
+                            weakLabel="Schwaches Passwort"
+                            goodLabel="Gutes Passwort"
+                            strongLabel="Starkes Passwort"
+                            promptLabel="Geben Sie ein Passwort ein" 
+                            style="margin-bottom: 5px;"/>
+                <p:message for="passwort_neu"
+                           style="font-family: calibri; font-size: 12px;"
+                           showDetail="true" />
+                <p:outputLabel value="Passwort wiederholen" />
+                <p:password id="passwort_wh"
+                            value="#{adminCon.passwort_wh}"
+                            placeholder="Passwort wiederholen" 
+                            styleClass="bill-input-box form-control"
+                            rendered="true"
+                            requiredMessage="Bitte geben Sie ein Passwort ein!"
+                            feedback="true"
+                            maxlength="30"
+                            weakLabel="Schwaches Passwort"
+                            goodLabel="Gutes Passwort"
+                            strongLabel="Starkes Passwort"
+                            promptLabel="Geben Sie ein Passwort ein" 
+                            style="margin-bottom: 5px;"/>
+                <p:message for="passwort_wh"
+                           style="font-family: calibri; font-size: 12px;"
+                           showDetail="true" />
+            </h:panelGrid>
+            <br/>
+            <p:commandButton value="Passwort ändern"
+                             actionListener="#{adminCon.aenderePasswort}"
+                             ajax="false"
+                             update="@form" />
+        </h:form>
+    </div>
+</ui:composition>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://193.170.118.29:54322/fotoherfert4school</property>
+    <property name="hibernate.connection.username">5BHIF_15</property>
+    <property name="hibernate.connection.password">scre20</property>
+    <property name="hibernate.hbm2ddl.auto">validate</property>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Artikel"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Artikeltyp"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Benutzer"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Bezahlmethode"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Klasse"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Kunde"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Reko"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Rezl"/>
+    <mapping class="at.htlstp.fotoherfert4school_admin.entity.Schule"/>
+  </session-factory>
+</hibernate-configuration>

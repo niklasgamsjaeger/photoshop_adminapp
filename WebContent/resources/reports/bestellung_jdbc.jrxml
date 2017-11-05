@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9d8545f1-47e5-4af7-b633-45463b236c17">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="18"/>
+	<parameter name="reko_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rezl_sum" class="java.math.BigDecimal"/>
+	<parameter name="logo_pfad" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select reko_id, reko_bezahldatum, reko_rechnungsdatum, rezl_lfd, rezl_vk_preis, (select artikeltyp_bezeichnung from artikeltyp where artikeltyp_id = artikel_artikeltyp) as artikeltyp,
+(select artikeltyp_preis from artikeltyp where artikeltyp_id = artikel_artikeltyp) as artikelpreis,
+(select bezahl_bezeichnung from bezahlmethode where bezahl_id = reko_bezahlmethode) as bezahlmethode
+From reko, rezl, artikel
+Where reko_id = rezl_reko AND reko_id = $P{reko_id} AND rezl_artikel = artikel_id
+Order By reko_id, rezl_lfd;]]>
+	</queryString>
+	<field name="reko_id" class="java.lang.Integer"/>
+	<field name="reko_bezahldatum" class="java.sql.Timestamp"/>
+	<field name="reko_rechnungsdatum" class="java.sql.Timestamp"/>
+	<field name="rezl_lfd" class="java.lang.Integer"/>
+	<field name="rezl_vk_preis" class="java.math.BigDecimal"/>
+	<field name="artikeltyp" class="java.lang.String"/>
+	<field name="artikelpreis" class="java.math.BigDecimal"/>
+	<field name="bezahlmethode" class="java.lang.String"/>
+	<variable name="preis_sum" class="java.math.BigDecimal" incrementType="Group" incrementGroup="reko_id" calculation="Sum">
+		<variableExpression><![CDATA[$F{rezl_vk_preis}]]></variableExpression>
+	</variable>
+	<group name="reko_id">
+		<groupExpression><![CDATA[$F{reko_id}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<staticText>
+					<reportElement x="10" y="0" width="100" height="20" uuid="2c9d77d8-54dc-40d0-a945-0a76ce3c1359"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[Zeilennummer]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="0" width="289" height="20" uuid="2afcb4f9-6734-430d-9222-d42386941bbf"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="409" y="0" width="81" height="20" uuid="350f909e-b102-4e17-a562-bf6cda68089e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[Preis]]></text>
+				</staticText>
+				<line>
+					<reportElement x="109" y="0" width="1" height="22" uuid="aeff20e4-e03f-4ed3-a055-64eed8a795fa"/>
+				</line>
+				<line>
+					<reportElement x="9" y="0" width="531" height="1" uuid="d9b01a02-ed49-4643-875f-b511d2ab764e"/>
+				</line>
+				<line>
+					<reportElement x="8" y="0" width="1" height="23" uuid="c7315cf9-22b2-4592-ada9-e2d835238832"/>
+				</line>
+				<line>
+					<reportElement x="540" y="0" width="1" height="23" uuid="9d442176-0a1a-4806-8d6f-b33632c634d9"/>
+				</line>
+				<line>
+					<reportElement x="8" y="20" width="532" height="1" uuid="e6827b3b-f721-42d3-8b95-5af5b388c310"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="100">
+				<staticText>
+					<reportElement x="364" y="1" width="56" height="20" uuid="9cf9c983-5c88-4477-aa1d-7743900f8c1c"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[Summe:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="443" y="-1" width="97" height="22" uuid="896c36aa-cc5c-4fbe-9b7f-5caad3b5629e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.format(Locale.GERMAN, "%.2f €", $P{rezl_sum})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="9" y="21" width="531" height="1" uuid="fe34e836-4e27-4a2f-b527-271840d9e84b"/>
+				</line>
+				<line>
+					<reportElement x="8" y="-1" width="1" height="23" uuid="64bb2444-5b3d-4ead-a67d-080c219b34c5"/>
+				</line>
+				<line>
+					<reportElement x="540" y="0" width="1" height="22" uuid="7edf1199-2295-49ca-b84b-4b7307c1686e"/>
+				</line>
+				<staticText>
+					<reportElement x="8" y="47" width="530" height="53" uuid="7375d295-59e2-498d-83e1-ecfac045ec70"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Vielen Dank für Ihre Bestellung bei fotoherfert4school.]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="309" splitType="Stretch">
+			<staticText>
+				<reportElement x="110" y="173" width="340" height="33" uuid="339df79c-05ca-4210-a85e-8f5dd29ad993"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="18" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Ihre Bestellung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="255" width="131" height="20" uuid="20dd5875-266c-4410-85c4-347bf169c22a"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Bestelldatum:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="235" width="120" height="20" uuid="625170a3-c47e-4a79-8d29-c3d7c2f3efbf"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Bezahldatum:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="141" y="255" width="150" height="20" uuid="0c217042-87e1-4b6a-9e3b-c1741502a36c"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format($F{reko_rechnungsdatum})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="235" width="150" height="20" uuid="01d1197f-29aa-4e2a-a0a5-c19f82331572"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reko_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="235" width="131" height="20" uuid="b3bc0a1b-2a96-4ce5-9b1e-461cc863fb5c"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Bestellnummer:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="433" y="235" width="122" height="20" uuid="38f1888a-22cb-4732-8599-f805700e7ad3"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format($F{reko_bezahldatum})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="14" width="100" height="20" uuid="9b1c1d68-c4ac-41ac-82f6-497299c64bf6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="34" width="100" height="20" uuid="c348306e-1d3a-4b77-90ec-630188e0613f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[fotoherfert]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="54" width="100" height="20" uuid="7f126eb7-2058-4a72-91fe-e68b3f4d01f2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Heßstraße 16]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="74" width="100" height="20" uuid="2f95deb8-f117-4bb8-aa92-cee59c675220"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[3500 St. Pölten]]></text>
+			</staticText>
+			<image>
+				<reportElement x="329" y="14" width="226" height="95" uuid="5357d352-50f9-48f0-b017-e0a55cb8e93c"/>
+				<imageExpression><![CDATA[$P{logo_pfad}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="313" y="255" width="120" height="20" uuid="1141928a-d15c-4758-b241-590d322a202e"/>
+				<textElement>
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Bezahlmethode:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="433" y="255" width="122" height="20" uuid="26ee0da7-e5ac-43c4-8853-3fc6d881dbbc"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bezahlmethode}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="10" y="-2" width="99" height="22" uuid="10cda4b3-901b-4719-8f22-4f25b0c7af0e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rezl_lfd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="-2" width="90" height="22" uuid="700c8575-92d4-4055-9b03-bf127f3af088"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.format(Locale.GERMAN, "%.2f €",$F{rezl_vk_preis})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="-2" width="289" height="22" uuid="3da4363a-1097-4c66-8d7a-0a5dd085c7ef"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{artikeltyp}.equals("Klassenfoto") ? $F{artikeltyp} : 
+((BigDecimal)$F{rezl_vk_preis}).doubleValue() < ((BigDecimal)$F{artikelpreis}).doubleValue() ? 
+("Weiteres " + $F{artikeltyp}) : $F{artikeltyp}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="109" y="-2" width="1" height="21" uuid="3aa96544-81d8-43e5-8cc7-063c73ba5138"/>
+			</line>
+			<line>
+				<reportElement x="8" y="0" width="1" height="20" uuid="2eb25e24-fd42-4507-8254-181872d811bc"/>
+			</line>
+			<line>
+				<reportElement x="540" y="0" width="1" height="20" uuid="0ebd316d-6c77-4f66-bd48-b03cce223f0b"/>
+			</line>
+			<line>
+				<reportElement x="8" y="18" width="532" height="1" uuid="478b8f86-a435-4378-a174-abb72c5cd51a"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="46"/>
+	</pageFooter>
+</jasperReport>

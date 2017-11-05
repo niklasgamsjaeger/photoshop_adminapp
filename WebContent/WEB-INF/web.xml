@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+   
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Pfad unter dem die Bilder gespeichert werden</description>
+        <param-name>speicherpfad</param-name>
+        <param-value>M:/5BHIF/fotoherfert4school(Alt)/MWVS_4C/</param-value>
+        <!--<param-value>/var/fotoherfertData/bilder/</param-value>-->
+    </context-param>
+    
+     <context-param>
+        <description>Pfad unter dem die Zip Dateien gespeichert werden</description>
+        <param-name>speicherpfadZIP</param-name>
+        <param-value>/var/fotoherfertData/download/</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Benennung fuer Wasserzeichen</description>
+        <param-name>wasserzeichen</param-name>
+        <param-value>wz_</param-value>
+    </context-param>
+    
+        <context-param>
+        <description>Prefix unter dem die Bilder am Server erreichbar sind</description>
+        <param-name>serverPfad</param-name>
+        <param-value>/MWVS_4C/</param-value>
+        <!--<param-value>/bilder/</param-value>-->
+    </context-param>
+    
+    
+    <context-param>
+        <description>URL der Webseite</description>
+        <param-name>kunden_webseiten_url</param-name>
+        <param-value>gfhost.htlstp.ac.at/fotoherfert4school_kunde/</param-value>
+    </context-param>
+    
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    
+    <welcome-file-list>
+        <welcome-file>faces/adminLogin.xhtml</welcome-file>
+    </welcome-file-list>
+    
+    <error-page>
+        <error-code>403</error-code>
+        <location>/faces/adminLoginFail.xhtml</location>
+    </error-page>
+    <!--    JDBC-Realm - nicht berühren!! :D -->
+<!--    <security-constraint>
+        <display-name>AdminConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <description>Nur Admins</description>
+            <url-pattern>/faces/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>jdbc-realm</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/adminLogin.xhtml</form-login-page>
+            <form-error-page>/faces/adminLoginFail.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>Administratoren</description>
+        <role-name>admin</role-name>
+    </security-role>-->
+</web-app>

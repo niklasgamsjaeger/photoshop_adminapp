@@ -1,0 +1,195 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <div>
+        <h3>Offene Rechnungen</h3>
+        <hr/>
+        <h:form id="rechnungsForm">
+            <h:panelGrid columns="3" 
+                         style="margin-bottom: 10px;">
+                <p:outputLabel value="Bestellnummer"
+                               for="suchfeld" />
+                <p:inputText id="suchfeld"
+                             placeholder="Suche" 
+                             styleClass="bill-input-box form-control"
+                             valueChangeListener="#{adminCon.sucheRechnungsnummer}"
+                             converterMessage="Die Rechnungsnummer muss eine Zahl sein!">
+                    <f:convertNumber type="number" integerOnly="true"/>
+                    <p:ajax event="keyup" update=":tabView:tabellenForm:rechnungsTabelle" />
+                </p:inputText>
+                <p:commandButton value="Alle anzeigen"
+                                 styleClass="show-bills"
+                                 update=":tabView:tabellenForm:rechnungsTabelle 
+                                 :tabView:rechnungsForm:suchfeld"
+                                 actionListener="#{adminCon.zeigeAlleRechnungen()}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:form id="tabellenForm" 
+                styleClass="font-art">
+            <p:dataTable id="rechnungsTabelle" 
+                         var="reko"
+                         value="#{adminCon.aktRechnungen}"
+                         paginator="true"
+                         paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom"
+                         rows="10"
+                         sortBy="#{reko.id}"
+                         sortOrder="descending"
+                         emptyMessage="Es gibt aktuell keine offenen Rechnungen!">
+                <p:column headerText="Bestellnummer" 
+                          sortBy="#{reko.id}">
+                    <h:outputText value="#{reko.id}"
+                                  styleClass="layout-center"/>
+                </p:column>
+
+                <p:column headerText="Kunde Email"
+                          style="width: 300px"
+                          sortBy="#{reko.kunde.email}">
+                    <h:outputText value="#{reko.kunde.email}" />
+                </p:column>
+
+                <p:column headerText="Preis">
+                    <h:outputText value="#{adminCon.rechnungssumme(reko)}"
+                                  styleClass="layout-center">
+                        <f:convertNumber type="currency" currencyCode="EUR" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Rechnungsdatum"
+                          sortBy="#{reko.rechnungsdatum}">
+                    <h:outputText value="#{reko.rechnungsdatum}"
+                                  styleClass="layout-center">
+                        <f:convertDateTime locale="de" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Zahlungseingang bestätigen">
+                    <p:commandButton icon="ui-icon-check"
+                                     actionListener="#{adminCon.zahlungBestaetigen(reko)}"
+                                     update=":tabView:tabellenForm:rechnungsTabelle 
+                                     :tabView:rechnungsForm:suchfeld 
+                                     :tabView:bestaetigteRechnungenForm:bestaetigteRechnungenTabelle"
+                                     styleClass="layout-center" />
+                </p:column>
+
+                <p:column headerText="Rechnung löschen">
+                    <p:commandButton icon="ui-icon-trash"
+                                     actionListener="#{adminCon.zahlungLoeschen(reko)}"
+                                     update=":tabView:tabellenForm:rechnungsTabelle 
+                                     :tabView:rechnungsForm:suchfeld"
+                                     styleClass="layout-center">
+                        <p:confirm header="Bestätigung" 
+                                   message="Sind Sie sicher dass Sie die offene Rechnung löschen möchten!" 
+                                   icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <br/><br/>
+
+        <h3>Bestätigte Rechnungen</h3>
+        <hr/>
+        <h:form id="bestaetigteRechnungsSucheForm">
+            <h:panelGrid columns="3" 
+                         style="margin-bottom: 10px;">
+                <p:outputLabel value="Bestellnummer"
+                               for="suchfeld_bestaetigteRechnunen" />
+                <p:inputText id="suchfeld_bestaetigteRechnunen"
+                             placeholder="Suche" 
+                             styleClass="bill-input-box form-control"
+                             valueChangeListener="#{adminCon.sucheBestaetigteRechnungsnummer}"
+                             converterMessage="Die Rechnungsnummer muss eine Zahl sein!">
+                    <f:convertNumber type="number" integerOnly="true"/>
+                    <p:ajax event="keyup" update=":tabView:bestaetigteRechnungenForm:bestaetigteRechnungenTabelle" />
+                </p:inputText>
+                <p:commandButton value="Alle anzeigen"
+                                 styleClass="show-bills"
+                                 update=":tabView:bestaetigteRechnungenForm:bestaetigteRechnungenTabelle
+                                 :tabView:bestaetigteRechnungsSucheForm:suchfeld_bestaetigteRechnunen"
+                                 actionListener="#{adminCon.zeigeAlleBestaetigteRechnungen()}"/>
+            </h:panelGrid>
+        </h:form>
+        <h:form id="bestaetigteRechnungenForm"
+                styleClass="font-art">
+            <p:dataTable id="bestaetigteRechnungenTabelle"
+                         var="reko"
+                         value="#{adminCon.aktBestaetigteRechnungen}"
+                         paginator="true"
+                         paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom"
+                         rows="10"
+                         sortBy="#{reko.id}"
+                         sortOrder="descending"
+                         emptyMessage="Keine bestätigten Rechnungen vorhanden!">
+
+                <p:column headerText="Bestellnummer"
+                          sortBy="#{reko.id}">
+                    <h:outputText value="#{reko.id}"
+                                  styleClass="layout-center"/>
+                </p:column>
+
+                <p:column headerText="Kunde Email"
+                          style="width: 300px"
+                          sortBy="#{reko.kunde.email}">
+                    <h:outputText value="#{reko.kunde.email}" />
+                </p:column>
+
+                <p:column headerText="Preis">
+                    <h:outputText value="#{adminCon.rechnungssumme(reko)}"
+                                  styleClass="layout-center">
+                        <f:convertNumber type="currency" currencyCode="EUR" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Rechnungsdatum"
+                          sortBy="#{reko.rechnungsdatum}">
+                    <h:outputText value="#{reko.rechnungsdatum}"
+                                  styleClass="layout-center">
+                        <f:convertDateTime locale="de" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Bestätigungsdatum"
+                          sortBy="#{reko.bezahldatum}">
+                    <h:outputText value="#{reko.bezahldatum}"
+                                  styleClass="layout-center">
+                        <f:convertDateTime locale="de" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Bezahlart">
+                    <h:outputText value="#{reko.bezahlmethode.bezeichnung}"
+                                  styleClass="layout-center" />
+                </p:column>
+
+                <p:column headerText="Email erneut senden">
+                    <p:commandButton icon="ui-icon-refresh"
+                                     actionListener="#{adminCon.sendeBestellungsMailErneut(reko)}"
+                                     ajax="false"
+                                     styleClass="layout-center" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <!--Confirm Dialog für offene Rechnung löschen-->
+        <h:form>
+            <p:confirmDialog global="true" 
+                             showEffect="fade" 
+                             hideEffect="fade">
+                <p:commandButton value="Ja" 
+                                 type="button" 
+                                 styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-check" />
+                <p:commandButton value="Nein" 
+                                 type="button" 
+                                 styleClass="ui-confirmdialog-no" 
+                                 icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </div>
+</ui:composition>
